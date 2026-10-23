@@ -26,11 +26,12 @@ namespace WheelOfFortune
         public static void Main(string[] args)
         {
             Student[] student = new Student[23];
+            Student[] finalists = new Student[10];
             LoadStudents(student);
             //Skeleton Program
             do
             {
-                Output(student);
+                Output(student, finalists);
             } while (userChoice != 0);
         }
 
@@ -148,9 +149,33 @@ namespace WheelOfFortune
             
         }
 
-        public static void TaskThree()
+        public static void TaskThree(Student[] student, Student[] finalists)
         {
-            Console.WriteLine("This is task 3\n");
+            Random rand = new Random();
+            int[] arrayRandom = new int[finalists.Length];
+            int randomGenerator;
+            Console.WriteLine("Generating 10 finalists");
+            for (int i = 0; i < finalists.Length; i++)
+            {
+                randomGenerator = rand.Next(1, 11);
+                for(int k = 0; k < i; k++)
+                {
+                    while (arrayRandom[k] == randomGenerator)
+                    {
+                        randomGenerator = rand.Next(1, 11);
+                        k = 0;
+                    }
+                }
+                arrayRandom[i] = randomGenerator;
+                finalists[i] = student[randomGenerator];
+            }
+            for(int i = 0; i < finalists.Length; i++)
+            {
+                Console.Write($"{finalists[i].firstName}".PadRight(25));
+                Console.Write($"{finalists[i].lastName}".PadRight(25));
+                Console.Write($"{finalists[i].interest}".PadRight(25));
+                Console.WriteLine($"{finalists[i].score}".PadRight(25));
+            }
         }
 
         public static void TaskFour()
@@ -188,7 +213,7 @@ namespace WheelOfFortune
             Console.SetCursorPosition(0, 0);
         }
 
-        public static void Output(Student[] student)
+        public static void Output(Student[] student, Student[] finalists)
         {
             TaskChoices();
             switch (userChoice)
@@ -201,7 +226,7 @@ namespace WheelOfFortune
                     TaskTwo(student);
                     break;
                 case 3:
-                    TaskThree();
+                    TaskThree(student, finalists);
                     break;
                 case 4:
                     TaskFour();
