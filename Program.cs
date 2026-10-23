@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
-
+using System.IO;
+using System.Runtime.CompilerServices;
 namespace WheelOfFortune
 {
     internal class Program
@@ -25,6 +26,7 @@ namespace WheelOfFortune
         public static void Main(string[] args)
         {
             Student[] student = new Student[23];
+            LoadStudents(student);
             //Skeleton Program
             do
             {
@@ -32,12 +34,11 @@ namespace WheelOfFortune
             } while (userChoice != 0);
         }
 
-        public static Student[] TaskOne(Student[] student)
+        public static void LoadStudents(Student[] student)
         {
             int i = 0;
             sr = new StreamReader(@"wheelOfFortune.txt");
-            Console.WriteLine("List all contestants\n");
-            while (!sr.EndOfStream && i < student.Length)
+            while(!sr.EndOfStream && i < student.Length)
             {
                 student[i].firstName = sr.ReadLine();
                 student[i].lastName = sr.ReadLine();
@@ -45,11 +46,15 @@ namespace WheelOfFortune
                 student[i].score = int.Parse(sr.ReadLine());
                 i++;
             }
+            sr.Close();
+        }
+        public static void TaskOne(Student[] student)
+        {
             Console.Write("First Name".PadRight(25));
             Console.Write("Last Name".PadRight(25));
             Console.Write("Interest".PadRight(50));
             Console.WriteLine("Score".PadRight(25));
-            for(i = 0; i < student.Length; i++)
+            for(int i = 0; i < student.Length; i++)
             {
                 for(int j = 0; j < i; j++)
                 {
@@ -63,7 +68,7 @@ namespace WheelOfFortune
                 
             }
 
-            for(i = 0; i < student.Length; i++)
+            for(int i = 0; i < student.Length; i++)
             {
                 Console.Write($"{student[i].firstName}".PadRight(25));
                 Console.Write($"{student[i].lastName}".PadRight(25));
@@ -71,12 +76,76 @@ namespace WheelOfFortune
                 Console.WriteLine($"{student[i].score}".PadRight(25));
             }
             sr.Close();
-            return student;
         }
 
-        public static void TaskTwo()
+        public static void TaskTwo(Student[] student)
         {
-            Console.WriteLine("This is task 2\n");
+            int choice;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("1 - Find a student by last name");
+                Console.WriteLine("0 - Go back");
+                Console.Write("Enter your choice: ");
+                choice = int.Parse(Console.ReadLine());
+                switch (choice)
+                {
+                    case 1:
+                        Console.Clear();
+                        int studentFoundNumber = 0;
+                        bool studentFound = false;
+                        do
+                        {
+                            
+                            Console.Write("Enter a student last name: ");
+                            string lastNameSearch = Console.ReadLine();
+                            for (int i = 0; i < student.Length; i++)
+                            {
+                                if (lastNameSearch.ToLower() == student[i].lastName.ToLower())
+                                {
+                                    studentFound = true;
+                                    studentFoundNumber = i;
+                                }
+                            }
+
+                            if (studentFound == true)
+                            {
+                                Console.WriteLine("Student found!");
+                                Console.WriteLine($"{student[studentFoundNumber].firstName} {student[studentFoundNumber].lastName}");
+                                Console.Write("Update the interest: ");
+                                string interest = Console.ReadLine();
+                                student[studentFoundNumber].interest = interest;
+                                sw = new StreamWriter(@"wheelOfFortune.txt");
+                                Console.WriteLine("List updated! Check the text file.");
+                                for (int i = 0; i < student.Length; i++)
+                                {
+                                    sw.WriteLine(student[i].firstName);
+                                    sw.WriteLine(student[i].lastName);
+                                    sw.WriteLine(student[i].interest);
+                                    sw.WriteLine(student[i].score);
+                                }
+                                sw.Close();
+                                Console.ReadLine();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Student not found! Try again!");
+                            }
+                        } while (studentFound == false);
+                        
+                        
+                        break;
+                    case 0:
+                        Console.WriteLine("Returning to main menu.");
+                        return;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid input! Please try again!");
+                        Console.ReadLine();
+                        break;
+                }
+            } while (choice != 0 || choice != 1);
+            
         }
 
         public static void TaskThree()
@@ -96,7 +165,6 @@ namespace WheelOfFortune
         public static void TaskZero()
         {
             Console.WriteLine("Exiting program. Thank you and have a good day!\n");
-            Environment.Exit(0);
         }
 
         public static void ErrorMessage()
@@ -107,6 +175,7 @@ namespace WheelOfFortune
         public static void TaskChoices()
         {
             Console.Clear();
+            Console.SetCursorPosition(0, 0);
             Console.WriteLine("1 - List all contestants");
             Console.WriteLine("2 - Locate a player");
             Console.WriteLine("3 - Generate 10 finalists");
@@ -116,6 +185,7 @@ namespace WheelOfFortune
             Console.Write("Please Enter a task number: ");
             userChoice = int.Parse(Console.ReadLine());
             Console.Clear();
+            Console.SetCursorPosition(0, 0);
         }
 
         public static void Output(Student[] student)
@@ -125,9 +195,10 @@ namespace WheelOfFortune
             {
                 case 1:
                     TaskOne(student);
+                    Console.WriteLine();
                     break;
                 case 2:
-                    TaskTwo();
+                    TaskTwo(student);
                     break;
                 case 3:
                     TaskThree();
