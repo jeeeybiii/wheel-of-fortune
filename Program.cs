@@ -178,9 +178,20 @@ namespace WheelOfFortune
             }
         }
 
-        public static void TaskFour()
+        public static void TaskFour(Student[] finalists)
         {
-            Console.WriteLine("This is task 4\n");
+            Random rand = new Random();
+            int randomGenerator;
+            randomGenerator = rand.Next(1, 10); 
+            Console.WriteLine("Selecting a player!");
+
+            for (int i = 0; i < finalists.Length; i++)
+            {
+                Console.Write($"{finalists[i].firstName}".PadRight(25));
+                Console.Write($"{finalists[i].lastName}".PadRight(25));
+                Console.Write($"{finalists[i].interest}".PadRight(25));
+                Console.WriteLine($"{finalists[i].score}".PadRight(25));
+            }
         }
 
         public static void TaskFive()
@@ -229,7 +240,7 @@ namespace WheelOfFortune
                     TaskThree(student, finalists);
                     break;
                 case 4:
-                    TaskFour();
+                    TaskFour(finalists);
                     break;
                 case 5:
                     TaskFive();
