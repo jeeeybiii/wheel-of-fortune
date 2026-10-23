@@ -27,11 +27,12 @@ namespace WheelOfFortune
         {
             Student[] student = new Student[23];
             Student[] finalists = new Student[10];
+            Student selectedPlayer = new Student();
             LoadStudents(student);
             //Skeleton Program
             do
             {
-                Output(student, finalists);
+                selectedPlayer = Output(student, finalists, selectedPlayer);
             } while (userChoice != 0);
         }
 
@@ -76,7 +77,6 @@ namespace WheelOfFortune
                 Console.Write($"{student[i].interest}".PadRight(50));
                 Console.WriteLine($"{student[i].score}".PadRight(25));
             }
-            sr.Close();
         }
 
         public static void TaskTwo(Student[] student)
@@ -139,7 +139,6 @@ namespace WheelOfFortune
                     case 0:
                         Console.WriteLine("Returning to main menu.");
                         return;
-                        break;
                     default:
                         Console.WriteLine("Invalid input! Please try again!");
                         Console.ReadLine();
@@ -178,25 +177,23 @@ namespace WheelOfFortune
             }
         }
 
-        public static void TaskFour(Student[] finalists)
+        public static Student TaskFour(Student[] finalists, Student selectedPlayer)
         {
             Random rand = new Random();
             int randomGenerator;
-            randomGenerator = rand.Next(1, 10); 
-            Console.WriteLine("Selecting a player!");
+            randomGenerator = rand.Next(0, finalists.Length); 
+            Console.WriteLine("Congratulations! You have selected");
 
-            for (int i = 0; i < finalists.Length; i++)
-            {
-                Console.Write($"{finalists[i].firstName}".PadRight(25));
-                Console.Write($"{finalists[i].lastName}".PadRight(25));
-                Console.Write($"{finalists[i].interest}".PadRight(25));
-                Console.WriteLine($"{finalists[i].score}".PadRight(25));
-            }
+            selectedPlayer = finalists[randomGenerator];
+            Console.WriteLine($"{selectedPlayer.firstName} {selectedPlayer.lastName} {selectedPlayer.score}");
+            Console.WriteLine("Press enter to go back.");
+            return selectedPlayer;
         }
 
-        public static void TaskFive()
+        public static void TaskFive(Student selectedPlayer)
         {
-            Console.WriteLine("This is task 5\n");
+            Console.WriteLine("Play the game!\n");
+            Console.WriteLine($"{selectedPlayer.firstName} {selectedPlayer.lastName} {selectedPlayer.score}");
         }
         public static void TaskZero()
         {
@@ -224,7 +221,7 @@ namespace WheelOfFortune
             Console.SetCursorPosition(0, 0);
         }
 
-        public static void Output(Student[] student, Student[] finalists)
+        public static Student Output(Student[] student, Student[] finalists, Student selectedPlayer)
         {
             TaskChoices();
             switch (userChoice)
@@ -240,10 +237,10 @@ namespace WheelOfFortune
                     TaskThree(student, finalists);
                     break;
                 case 4:
-                    TaskFour(finalists);
+                    selectedPlayer = TaskFour(finalists, selectedPlayer);
                     break;
                 case 5:
-                    TaskFive();
+                    TaskFive(selectedPlayer);
                     break;
                 case 0:
                     TaskZero();
@@ -253,6 +250,7 @@ namespace WheelOfFortune
                     break;
             }
             Console.ReadLine();
+            return selectedPlayer;
         }
     }
 }
