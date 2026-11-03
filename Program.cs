@@ -25,11 +25,15 @@ namespace WheelOfFortune
 
         public static void Main(string[] args)
         {
+            //initializing variables
             Student[] student = new Student[23];
             Student[] finalists = new Student[10];
             Student selectedPlayer = new Student();
+
+            //call the text file
             LoadStudents(student);
-            //Skeleton Program
+            
+            //runs the program while userChoice is not the exit code
             do
             {
                 selectedPlayer = Output(student, finalists, selectedPlayer);
@@ -56,6 +60,7 @@ namespace WheelOfFortune
             Console.Write("Last Name".PadRight(25));
             Console.Write("Interest".PadRight(50));
             Console.WriteLine("Score".PadRight(25));
+            Console.WriteLine();
             for(int i = 0; i < student.Length; i++)
             {
                 for(int j = 0; j < i; j++)
@@ -153,15 +158,21 @@ namespace WheelOfFortune
             Random rand = new Random();
             int[] arrayRandom = new int[finalists.Length];
             int randomGenerator;
-            Console.WriteLine("Generating 10 finalists");
+            Console.WriteLine("Generating 10 finalists:");
+            Console.WriteLine();
+            Console.Write("First Name".PadRight(25));
+            Console.Write("Last Name".PadRight(25));
+            Console.Write("Interest".PadRight(50));
+            Console.WriteLine("Score".PadRight(25));
+            Console.WriteLine();
             for (int i = 0; i < finalists.Length; i++)
             {
-                randomGenerator = rand.Next(1, 11);
+                randomGenerator = rand.Next(1, 23);
                 for(int k = 0; k < i; k++)
                 {
                     while (arrayRandom[k] == randomGenerator)
                     {
-                        randomGenerator = rand.Next(1, 11);
+                        randomGenerator = rand.Next(1, 23);
                         k = 0;
                     }
                 }
@@ -172,7 +183,7 @@ namespace WheelOfFortune
             {
                 Console.Write($"{finalists[i].firstName}".PadRight(25));
                 Console.Write($"{finalists[i].lastName}".PadRight(25));
-                Console.Write($"{finalists[i].interest}".PadRight(25));
+                Console.Write($"{finalists[i].interest}".PadRight(50));
                 Console.WriteLine($"{finalists[i].score}".PadRight(25));
             }
         }
@@ -192,6 +203,13 @@ namespace WheelOfFortune
 
         public static void TaskFive(Student selectedPlayer)
         {
+            string wordToGuess = "characterize";
+            string alphabet = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z";
+            bool wordGuess = false, letterGuess = false;
+            Random rand = new Random();
+            int randomGenerator;
+            const double VOWEL_REDUCE = 250;
+            double[] wheelOfFortune = { 300, 400, 500, 600, 750, 800, 950, 1000, 1100, 1250, 1500, 1750, 2000, 2150, 2250, 2450, 2750, 3000, 3500, 4000, 4500 ,5000, -2000, -3000 };
             Console.WriteLine("Play the game!\n");
             Console.WriteLine($"{selectedPlayer.firstName} {selectedPlayer.lastName} {selectedPlayer.score}");
         }
