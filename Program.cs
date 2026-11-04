@@ -44,7 +44,7 @@ namespace WheelOfFortune
         public static void LoadStudents(Student[] student)
         {
             int i = 0;
-            sr = new StreamReader(@"wheelOfFortune.txt");
+            sr = new StreamReader(@"../../../wheelOfFortune.txt");
             while(!sr.EndOfStream && i < student.Length)
             {
                 student[i].firstName = sr.ReadLine();
@@ -133,7 +133,7 @@ namespace WheelOfFortune
                                 Console.Write("Update the interest: ");
                                 string interest = Console.ReadLine();
                                 student[studentFoundNumber].interest = interest;
-                                sw = new StreamWriter(@"wheelOfFortune.txt");
+                                sw = new StreamWriter(@"../../../wheelOfFortune.txt");
                                 Console.WriteLine("List updated! Check the text file.");
                                 for (int i = 0; i < student.Length; i++)
                                 {
@@ -488,7 +488,7 @@ namespace WheelOfFortune
         //method to update the text file
         public static void UpdateScore(Student[] student,Student selectedPlayer)
         {
-            sw = new StreamWriter(@"wheelOfFortune.txt");
+            sw = new StreamWriter(@"../../../wheelOfFortune.txt");
             //update current score
             for(int i = 0; i < student.Length; i++)
             {
