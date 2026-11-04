@@ -203,139 +203,233 @@ namespace WheelOfFortune
             return selectedPlayer;
         }
 
-        public static Student TaskFive(Student selectedPlayer)
+        public static int SpinWheel()
         {
-            //initialize variables
             Random rand = new Random();
-            string[] wordToGuessArray = { "characterize","programming", "mathematics", "computerized", "electricity"};
-            string wordToGuess = "", userInput = "";
-            string updatedWord = "";
-            string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            char[] alphabetArray = alphabet.ToCharArray();
-            string[] guessedLetters = new string[26];
-            bool wordGuess = false, letterGuess = false, letterFound = false;
-            int wordGenerator = rand.Next(0, wordToGuessArray.Length);
-            wordToGuess = wordToGuessArray[wordGenerator];
-            int randomGenerator, letterOccurrences = 0, guessedLetterCount = 0;
-            const double VOWEL_REDUCE = -250;
-            double[] wheelOfFortune = { 300, 400, 500, 600, 750, 800, 950, 1000, 1100, 1250, 1500, 1750, 2000, 2150, 2250, 2450, 2750, 3000, 3500, 4000, 4500 ,5000, -2000, -3000 };
-            double spinValue = 0;
-            
-            //initial start
-            Console.WriteLine("Play the game!\n");
+            int wheelGenerator;
+            int[] wheelOfFortune = { 300, 350, 400, 500, 750, 900, 1000, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3250, 3500, 3700, 4000, 4250, 4500, 4750, 5000 , -2000, -3000 };
+            wheelGenerator = rand.Next(0, wheelOfFortune.Length);
+            return wheelOfFortune[wheelGenerator];
+        }
 
-            //add blanks
-            char[] wordArray = new char[wordToGuess.Length];
-            for (int i = 0; i < wordArray.Length; i++)
-            {
-                wordArray[i] = '_';
-            }
+        public static string WordRandomizer()
+        {
+            Random rand = new Random();
+            int wordRandomizer;
+            string[] words = { "computerized", "electricity", "chrysanthemum" };
+            wordRandomizer = rand.Next(0, words.Length);
+            return words[wordRandomizer];
+        }
 
+        public static string ValidateUserInput(string userInput, char[] alphabet)
+        {
+            bool letterFound = false;
             do
             {
-                Console.Clear();
-                Console.Write("Letters: ");
-                for (int i = 0; i < alphabetArray.Length; i++)
+                if (userInput.Length != 1)
                 {
-                    Console.Write($"{alphabetArray[i]} ");
-                }
-                Console.WriteLine();
-                letterGuess = false;
-                letterFound = false;
-                letterOccurrences = 0;
-                randomGenerator = rand.Next(0, wheelOfFortune.Length);
-
-
-                //display blanks, name and score
-                Console.WriteLine(wordArray);
-                Console.WriteLine($"{selectedPlayer.firstName} {selectedPlayer.lastName} {selectedPlayer.score}");
-                Console.WriteLine($"The wheel landed on: {wheelOfFortune[randomGenerator]:C2}");
-
-                //userinput loop
-                while (letterGuess == false)
-                {
-                    Console.Write("Guess a letter: ");
+                    Console.WriteLine("Invalid input! Try again!");
+                    Console.Write("Enter a letter: ");
                     userInput = Console.ReadLine();
-                    userInput = userInput.ToLower();
-                    userInput = userInput.Trim();
-                    if (userInput.Length == 1 && char.IsLetter(userInput[0]))
-                    {
-                        bool alreadyGuessed = false;
-
-                        for (int i = 0; i < guessedLetterCount; i++)
-                        {
-                            if (userInput == guessedLetters[i])
-                            {
-                                alreadyGuessed = true;
-                            }
-                        }
-
-                        if (alreadyGuessed == true)
-                        {
-                            Console.WriteLine("You already guessed that letter!");
-                        }
-                        else
-                        {
-                            guessedLetters[guessedLetterCount] = userInput;
-                            guessedLetterCount++;
-                            letterGuess = true;
-                            Console.WriteLine($"You guessed: {userInput}");
-                            alphabetArray[userInput[0] - 'a'] = '_';
-                        }
-                    }
-
-                }
-
-                //guessed letter loop
-                for (int i = 0; i < wordArray.Length; i++)
-                {
-                    if (wordToGuess[i] == userInput[0])
-                    {
-                        wordArray[i] = userInput[0];
-                        letterFound = true;
-                        letterOccurrences++;
-                    }
-                }
-
-                spinValue = wheelOfFortune[randomGenerator];
-
-                //display letter of occurences
-                if (wheelOfFortune[randomGenerator] < 0)
-                {
-                    spinValue = wheelOfFortune[randomGenerator];
-                    Console.WriteLine($"You lost {spinValue}!");
-                }
-                else if (userInput[0] == 'a' ||
-                    userInput[0] == 'e' ||
-                    userInput[0] == 'i' ||
-                    userInput[0] == 'o' ||
-                    userInput[0] == 'u')
-                {
-                    spinValue = VOWEL_REDUCE;
-                }
-                else if (letterFound == true)
-                {
-                    spinValue = letterOccurrences * wheelOfFortune[randomGenerator];
-                    Console.WriteLine($"Correct guess! The letter appeared {letterOccurrences} time(s).");
-                    Console.WriteLine($"You gained {spinValue}");
                 }
                 else
                 {
-                    spinValue = 0;
-                    Console.WriteLine("That letter is not in the word!");
+                    for (int i = 0; i < alphabet.Length; i++)
+                    {
+                        if (char.Parse(userInput.ToUpper()) == alphabet[i])
+                        {
+                            letterFound = true;
+                        }
+                    }
+                    if(letterFound == false)
+                    {
+                        Console.WriteLine("Invalid input! Try again!");
+                        Console.Write("Enter a letter: ");
+                        userInput = Console.ReadLine();
+                    }
                 }
-                updatedWord = new string(wordArray);
-                Console.WriteLine($"Round score change: {spinValue}");
-                selectedPlayer.score += (int)spinValue;
+            } while (letterFound == false);
+            return userInput;
+        }
 
-                if(updatedWord == wordToGuess)
+        public static int ValidateCorrectLetters(string wordToGuess, char[] wordBlanks, string userInput)
+        {
+            bool correctLetter = false;
+            char validator = char.Parse(userInput);
+            int letterOccurences = 0;
+            for(int i = 0; i < wordBlanks.Length; i++)
+            {
+                if(char.ToLower(wordToGuess[i]) == char.ToLower(validator))
                 {
-                    wordGuess = true;
-                    Console.WriteLine("Congratulations! You completed the word!");
+                    correctLetter = true;
+                    wordBlanks[i] = validator;
+                    letterOccurences++;
+                }
+                
+            }
+            if(correctLetter == false)
+            {
+                Console.WriteLine("Letter not found!");
+            }
+            else
+            {
+                Console.WriteLine("Letter found!");
+            }
+            return letterOccurences;
+        }
+
+        public static bool IsVowel(string userInput)
+        {
+            userInput = userInput.ToLower();
+            if(userInput == "a"||
+                userInput == "e"||
+                userInput == "i"||
+                userInput == "o"||
+                userInput == "u")
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static Student TaskFive(Student selectedPlayer)
+        {
+            //initialize variables
+            int wheel = 0, currentScore = selectedPlayer.score, letterOccurences = 0;
+            string wordToGuess = "", userInput = "", updatedWord = "";
+            char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+
+            const int VOWEL_REDUCE = 250;
+            bool loop = true, isVowel = false;
+            
+            //get the word
+            wordToGuess = WordRandomizer();
+            char[] wordBlanks = new char[wordToGuess.Length];
+            for (int i = 0; i < wordToGuess.Length; i++)
+            {
+                wordBlanks[i] = '_';
+            }
+            //spin the wheel
+            do
+            {
+                Console.Clear();
+                //display the blanks
+                for (int i = 0; i < wordBlanks.Length; i++)
+                {
+                    Console.Write($"{wordBlanks[i]} ");
+                }
+                Console.WriteLine();
+                //display the available letters
+                for(int i = 0; i < alphabet.Length; i++)
+                {
+                    Console.Write($"{alphabet[i]} ");
+                }
+
+                wheel = SpinWheel();
+                Console.WriteLine("\n\n");
+                Console.WriteLine($"The wheel landed on: {wheel}");
+
+                Console.WriteLine("\n");
+                Console.WriteLine($"Current score: {currentScore}");
+                
+                //validate the input if it is a vowel and score is less than 250
+                do
+                {
+                    Console.Write("Enter a letter: ");
+                    userInput = Console.ReadLine();
+                    userInput = ValidateUserInput(userInput, alphabet);
+                    isVowel = IsVowel(userInput);
+                    if(isVowel == true && currentScore < VOWEL_REDUCE)
+                    {
+                        Console.WriteLine("Can't afford a vowel yet!");
+                    }
+                } while (isVowel == true && currentScore < VOWEL_REDUCE);
+                
+                for(int i = 0; i < alphabet.Length; i++)
+                {
+                    if (alphabet[i] == char.Parse(userInput.ToUpper()))
+                    {
+                        alphabet[i] = ' ';
+                    }
+                }
+                letterOccurences = ValidateCorrectLetters(wordToGuess, wordBlanks, userInput);
+
+
+                if (wheel == -2000 || wheel == -3000)
+                {
+                    currentScore += wheel;
+                }
+                else if(isVowel == true)
+                {
+                    currentScore -= VOWEL_REDUCE;
+                }
+                else
+                {
+                    currentScore += letterOccurences * wheel;
                 }
                 Console.ReadLine();
-            } while (wordGuess == false);
+                updatedWord = new string(wordBlanks);
+                if(updatedWord == wordToGuess)
+                {
+                    Console.WriteLine("You have guessed the word!");
+                    Console.WriteLine($"The word is: {wordToGuess}");
+                    Console.ReadLine();
+                }
+            } while (updatedWord != wordToGuess);
+            selectedPlayer.score = currentScore;
             return selectedPlayer;
+        }
+
+        public static void UpdateScore(Student[] student,Student selectedPlayer)
+        {
+            sw = new StreamWriter(@"wheelOfFortune.txt");
+            //update current score
+            for(int i = 0; i < student.Length; i++)
+            {
+                if (student[i].lastName == selectedPlayer.lastName)
+                {
+                    student[i].score = selectedPlayer.score;
+                }
+            }
+
+            //write in text file
+            for(int i = 0; i < student.Length; i++)
+            {
+                sw.WriteLine(student[i].firstName);
+                sw.WriteLine(student[i].lastName);
+                sw.WriteLine(student[i].interest);
+                sw.WriteLine(student[i].score);
+            }
+            sw.Close();
+        }
+
+        public static void TaskSix(Student[] student)
+        {
+            for(int i = 0; i < student.Length; i++)
+            {
+                for(int j = 0; j < i; j++)
+                {
+                    if (student[i].score > student[j].score)
+                    {
+                        Student temp = student[i];
+                        student[i] = student[j];
+                        student[j] = temp;
+                    }
+                }
+            }
+            Console.WriteLine("Top 5:\n");
+            Console.Write("First Name".PadRight(25));
+            Console.Write("Last Name".PadRight(25));
+            Console.Write("Interest".PadRight(50));
+            Console.WriteLine("Score".PadRight(25));
+            Console.WriteLine();
+            for (int i = 0; i < 5; i++)
+            {
+                Console.Write($"{student[i].firstName}".PadRight(25));
+                Console.Write($"{student[i].lastName}".PadRight(25));
+                Console.Write($"{student[i].interest}".PadRight(50));
+                Console.WriteLine($"{student[i].score}".PadRight(25));
+            }
         }
         public static void TaskZero()
         {
@@ -356,64 +450,12 @@ namespace WheelOfFortune
             Console.WriteLine("3 - Generate 10 finalists");
             Console.WriteLine("4 - Select the player from the finalists");
             Console.WriteLine("5 - Play the game");
+            Console.WriteLine("6 - Display top 5");
             Console.WriteLine("0 - Exit the game");
             Console.Write("Please Enter a task number: ");
             userChoice = int.Parse(Console.ReadLine());
             Console.Clear();
             Console.SetCursorPosition(0, 0);
-        }
-
-        public static void DisplayTopFive(Student[] student)
-        {
-            for(int i = 0; i < student.Length; i++)
-            {
-                for(int j = 0; j < i; j++)
-                {
-                    if (student[i].score > student[j].score)
-                    {
-                        Student temp = student[i];
-                        student[i] = student[j];
-                        student[j] = temp;
-                    }
-                }
-            }
-            Console.Write("Ranking".PadRight(25));
-            Console.Write("First Name".PadRight(25));
-            Console.Write("Last Name".PadRight(25));
-            Console.Write("Interest".PadRight(50));
-            Console.WriteLine("Score".PadRight(25));
-            for (int i = 0; i < 5; i++)
-            {
-                Console.Write($"{i + 1}.".PadRight(25));
-                Console.Write($"{student[i].firstName}".PadRight(25));
-                Console.Write($"{student[i].lastName}".PadRight(25));
-                Console.Write($"{student[i].interest}".PadRight(50));
-                Console.WriteLine($"{student[i].score}".PadRight(25));
-            }
-        }
-
-        public static void UpdateScore(Student[]student, Student selectedPlayer)
-        {
-            sw = new StreamWriter(@"wheelOfFortune.txt");
-
-            //update score
-            for(int i = 0; i < student.Length; i++)
-            {
-                if (student[i].firstName == selectedPlayer.firstName && student[i].lastName == selectedPlayer.lastName)
-                {
-                    student[i].score = selectedPlayer.score;
-                }
-            }
-            
-            //write into the streamwriter
-            for(int i = 0; i < student.Length; i++)
-            {
-                sw.WriteLine(student[i].firstName);
-                sw.WriteLine(student[i].lastName);
-                sw.WriteLine(student[i].interest);
-                sw.WriteLine(student[i].score);
-            }
-            sw.Close();
         }
 
         public static Student Output(Student[] student, Student[] finalists, Student selectedPlayer)
@@ -432,13 +474,30 @@ namespace WheelOfFortune
                     TaskThree(student, finalists);
                     break;
                 case 4:
-                    selectedPlayer = TaskFour(finalists, selectedPlayer);
+                    if (string.IsNullOrWhiteSpace(finalists[0].firstName))
+                    {
+                        Console.WriteLine("You need to generate finalists first!");
+                        Console.WriteLine("Press enter to go back.");
+                    }
+                    else
+                    {
+                        selectedPlayer = TaskFour(finalists, selectedPlayer);
+                    }
                     break;
                 case 5:
-                    selectedPlayer = TaskFive(selectedPlayer);
-                    //update score method
-                    UpdateScore(student, selectedPlayer);
-                    DisplayTopFive(student);
+                    if(string.IsNullOrWhiteSpace(selectedPlayer.lastName))
+                    {
+                        Console.WriteLine("You need to find a player first!");
+                        Console.WriteLine("Press enter to go back.");
+                    }
+                    else
+                    {
+                        selectedPlayer = TaskFive(selectedPlayer);
+                        UpdateScore(student, selectedPlayer);
+                    }
+                    break;
+                case 6:
+                    TaskSix(student);
                     break;
                 case 0:
                     TaskZero();
