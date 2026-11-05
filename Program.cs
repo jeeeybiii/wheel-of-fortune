@@ -155,7 +155,7 @@ namespace WheelOfFortune
                         break;
                     case 0:
                         Console.WriteLine("Returning to main menu.");
-                        return;
+                        break;
                     default:
                         Console.WriteLine("Invalid input! Please try again!");
                         Console.ReadLine();
