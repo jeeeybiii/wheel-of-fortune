@@ -426,6 +426,7 @@ namespace WheelOfFortune
 
 
                 //condition to check the spinvalue
+<<<<<<< HEAD
                 //check vowel first before negative value
                 if (isVowel == true)
                 {
@@ -437,6 +438,16 @@ namespace WheelOfFortune
                     currentScore += wheel;
                 }
                 
+=======
+                if (wheel == -2000 || wheel == -3000)
+                {
+                    currentScore += wheel;
+                }
+                else if(isVowel == true)
+                {
+                    currentScore -= VOWEL_REDUCE;
+                }
+>>>>>>> origin/main
                 else
                 {
                     currentScore += letterOccurences * wheel;
