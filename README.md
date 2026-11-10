@@ -1,3 +1,5 @@
+John Vincent L. Macuto
+
 Extra Features
 - Animated wheel-spin effect
 - Available letters disappear after being guessed
