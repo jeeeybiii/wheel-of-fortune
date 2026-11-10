@@ -426,6 +426,7 @@ namespace WheelOfFortune
 
 
                 //condition to check the spinvalue
+                //check vowel first before negative value
                 if (isVowel == true)
                 {
                     currentScore -= VOWEL_REDUCE;
