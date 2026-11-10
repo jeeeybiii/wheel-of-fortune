@@ -541,7 +541,7 @@ namespace WheelOfFortune
                 Console.Write($"{student[i].interest}".PadRight(50));
                 Console.WriteLine($"{student[i].score}".PadRight(25));
             }
-            Console.WriteLine("Press enter to go back to main menu.");
+            Console.WriteLine("\n\nPress enter to go back to main menu.");
         }
 
         //method to exit program
