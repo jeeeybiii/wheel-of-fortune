@@ -426,14 +426,16 @@ namespace WheelOfFortune
 
 
                 //condition to check the spinvalue
-                if (wheel == -2000 || wheel == -3000)
-                {
-                    currentScore += wheel;
-                }
-                else if(isVowel == true)
+                if (isVowel == true)
                 {
                     currentScore -= VOWEL_REDUCE;
                 }
+
+                else if (wheel == -2000 || wheel == -3000)
+                {
+                    currentScore += wheel;
+                }
+                
                 else
                 {
                     currentScore += letterOccurences * wheel;
