@@ -8,7 +8,7 @@ namespace WheelOfFortune
 
         //userChoice in main menu
         public static int userChoice;
-        
+
 
         //struct student
         public struct Student
@@ -32,11 +32,11 @@ namespace WheelOfFortune
 
             //call the text file
             LoadStudents(student);
-            
+
             //runs the program while userChoice is not the exit code
             do
             {
-               selectedPlayer = Output(student, finalists, selectedPlayer);
+                selectedPlayer = Output(student, finalists, selectedPlayer);
             } while (userChoice != 0);
         }
 
@@ -45,7 +45,7 @@ namespace WheelOfFortune
         {
             int i = 0;
             sr = new StreamReader(@"../../../wheelOfFortune.txt");
-            while(!sr.EndOfStream && i < student.Length)
+            while (!sr.EndOfStream && i < student.Length)
             {
                 student[i].firstName = sr.ReadLine();
                 student[i].lastName = sr.ReadLine();
@@ -57,7 +57,7 @@ namespace WheelOfFortune
         }
 
         //taskone to display students ascending by last name
-        public static void TaskOne(Student[] student, Student selectedPlayer)
+        public static void TaskOne(Student[] student)
         {
             Console.Write("First Name".PadRight(25));
             Console.Write("Last Name".PadRight(25));
@@ -66,9 +66,9 @@ namespace WheelOfFortune
             Console.WriteLine();
 
             //display students
-            for(int i = 0; i < student.Length; i++)
+            for (int i = 0; i < student.Length; i++)
             {
-                for(int j = 0; j < i; j++)
+                for (int j = 0; j < i; j++)
                 {
                     //bubble sorting strings
                     if (student[j].lastName.CompareTo(student[i].lastName) > 0)
@@ -78,10 +78,10 @@ namespace WheelOfFortune
                         student[j] = temp;
                     }
                 }
-                
+
             }
 
-            for(int i = 0; i < student.Length; i++)
+            for (int i = 0; i < student.Length; i++)
             {
                 Console.Write($"{student[i].firstName}".PadRight(25));
                 Console.Write($"{student[i].lastName}".PadRight(25));
@@ -112,7 +112,7 @@ namespace WheelOfFortune
                         bool studentFound = false;
                         do
                         {
-                            
+
                             Console.Write("Enter a student last name: ");
                             string lastNameSearch = Console.ReadLine();
                             for (int i = 0; i < student.Length; i++)
@@ -150,8 +150,8 @@ namespace WheelOfFortune
                                 Console.WriteLine("Student not found! Try again!");
                             }
                         } while (studentFound == false);
-                        
-                        
+
+
                         break;
                     case 0:
                         Console.WriteLine("Returning to main menu.");
@@ -162,7 +162,7 @@ namespace WheelOfFortune
                         break;
                 }
             } while (choice != 0);
-            
+
         }
 
         //method to generate 10 student finalist to play the wheel of fortune
@@ -185,10 +185,10 @@ namespace WheelOfFortune
             for (int i = 0; i < finalists.Length; i++)
             {
                 //random generator to find the student according to the struct
-                randomGenerator = rand.Next(0, student.Length-1);
-                
+                randomGenerator = rand.Next(0, student.Length);
+
                 //inner loop that will start at 0 if a name has been duplicated
-                for(int k = 0; k < i; k++)
+                for (int k = 0; k < i; k++)
                 {
                     //condition if duplication occurs
                     while (arrayRandom[k] == randomGenerator)
@@ -204,7 +204,7 @@ namespace WheelOfFortune
             }
 
             //display 10 finalists
-            for(int i = 0; i < finalists.Length; i++)
+            for (int i = 0; i < finalists.Length; i++)
             {
                 Console.Write($"{finalists[i].firstName}".PadRight(25));
                 Console.Write($"{finalists[i].lastName}".PadRight(25));
@@ -219,7 +219,7 @@ namespace WheelOfFortune
         {
             Random rand = new Random();
             int randomGenerator;
-            randomGenerator = rand.Next(0, finalists.Length); 
+            randomGenerator = rand.Next(0, finalists.Length);
             Console.WriteLine("Congratulations! You have selected");
 
             selectedPlayer = finalists[randomGenerator];
@@ -235,9 +235,9 @@ namespace WheelOfFortune
             //initialize variables and create an instance of Random()
             Random rand = new Random();
             int wheelGenerator;
-            int[] wheelOfFortune = { 300, 350, 400, 500, 750, 900, 1000, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3250, 3500, 3700, 4000, 4250, 4500, 4750, 5000 , -2000, -3000 };
+            int[] wheelOfFortune = { 300, 350, 400, 500, 750, 900, 1000, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3250, 3500, 3700, 4000, 4250, 4500, 4750, 5000, -2000, -3000 };
             wheelGenerator = rand.Next(0, wheelOfFortune.Length);
-            
+
             //simple animation to display the current spinvalue
             for (int i = 0; i < 12; i++)
             {
@@ -259,7 +259,7 @@ namespace WheelOfFortune
         {
             Random rand = new Random();
             int wordRandomizer;
-            string[] words = { "computerized", "electricity", "chrysanthemum", "programming", "mathematics", "photography", "dictionary", "restaurant"};
+            string[] words = { "computerized", "electricity", "chrysanthemum", "programming", "mathematics", "photography", "dictionary", "restaurant" };
             wordRandomizer = rand.Next(0, words.Length);
             return words[wordRandomizer];
         }
@@ -290,7 +290,7 @@ namespace WheelOfFortune
                         }
                     }
                     //condition if userInput is not a letter
-                    if(letterFound == false)
+                    if (letterFound == false)
                     {
                         Console.WriteLine("Invalid input! Try again!");
                         Console.Write("Enter a letter: ");
@@ -310,19 +310,19 @@ namespace WheelOfFortune
             int letterOccurences = 0;
 
             //for loop to check letter occurences
-            for(int i = 0; i < wordBlanks.Length; i++)
+            for (int i = 0; i < wordBlanks.Length; i++)
             {
-                if(char.ToLower(wordToGuess[i]) == char.ToLower(validator))
+                if (char.ToLower(wordToGuess[i]) == char.ToLower(validator))
                 {
                     correctLetter = true;
                     wordBlanks[i] = validator;
                     letterOccurences++;
                 }
-                
+
             }
 
             //condition if letter is not in the wordGuess
-            if(correctLetter == false)
+            if (correctLetter == false)
             {
                 Console.WriteLine("Letter not found!");
             }
@@ -340,10 +340,10 @@ namespace WheelOfFortune
         public static bool IsVowel(string userInput)
         {
             userInput = userInput.ToLower();
-            if(userInput == "a"||
-                userInput == "e"||
-                userInput == "i"||
-                userInput == "o"||
+            if (userInput == "a" ||
+                userInput == "e" ||
+                userInput == "i" ||
+                userInput == "o" ||
                 userInput == "u")
             {
                 return true;
@@ -363,7 +363,7 @@ namespace WheelOfFortune
             //a constant for a vowel amount
             const int VOWEL_REDUCE = 250;
             bool isVowel = false;
-            
+
             //get the word from WordRandomizer method
             wordToGuess = WordRandomizer();
 
@@ -385,20 +385,21 @@ namespace WheelOfFortune
                 }
                 Console.WriteLine();
                 //display the available letters
-                for(int i = 0; i < alphabet.Length; i++)
+                for (int i = 0; i < alphabet.Length; i++)
                 {
                     Console.Write($"{alphabet[i]} ");
                 }
 
-                
+
                 Console.WriteLine("\n");
                 wheel = SpinWheel();
                 Console.WriteLine("\n\n");
                 Console.WriteLine($"The wheel landed on: {wheel}");
 
                 Console.WriteLine("\n");
+                Console.WriteLine($"Player name: {selectedPlayer.firstName} {selectedPlayer.lastName}");
                 Console.WriteLine($"Current score: {currentScore}");
-                
+
                 //validate the input if it is a vowel and score is less than 250
                 do
                 {
@@ -406,14 +407,14 @@ namespace WheelOfFortune
                     userInput = Console.ReadLine();
                     userInput = ValidateUserInput(userInput, alphabet);
                     isVowel = IsVowel(userInput);
-                    if(isVowel == true && currentScore < VOWEL_REDUCE)
+                    if (isVowel == true && currentScore < VOWEL_REDUCE)
                     {
                         Console.WriteLine("Can't afford a vowel yet!");
                     }
                 } while (isVowel == true && currentScore < VOWEL_REDUCE);
-                
+
                 //removes a letter that was already used
-                for(int i = 0; i < alphabet.Length; i++)
+                for (int i = 0; i < alphabet.Length; i++)
                 {
                     if (alphabet[i] == char.Parse(userInput.ToUpper()))
                     {
@@ -426,6 +427,7 @@ namespace WheelOfFortune
 
 
                 //condition to check the spinvalue
+                //check vowel first before negative value
                 if (isVowel == true)
                 {
                     currentScore -= VOWEL_REDUCE;
@@ -435,7 +437,7 @@ namespace WheelOfFortune
                 {
                     currentScore += wheel;
                 }
-                
+
                 else
                 {
                     currentScore += letterOccurences * wheel;
@@ -462,7 +464,7 @@ namespace WheelOfFortune
                 Console.WriteLine();
 
                 Console.WriteLine($"\nCurrent score: {currentScore}");
-                
+
                 //if else condition to check if updatedWord to lower is equal to
                 //wordToGuess to lower
                 if (updatedWord.ToLower() == wordToGuess.ToLower())
@@ -488,11 +490,11 @@ namespace WheelOfFortune
 
 
         //method to update the text file
-        public static void UpdateScore(Student[] student,Student selectedPlayer)
+        public static void UpdateScore(Student[] student, Student selectedPlayer)
         {
             sw = new StreamWriter(@"../../../wheelOfFortune.txt");
             //update current score
-            for(int i = 0; i < student.Length; i++)
+            for (int i = 0; i < student.Length; i++)
             {
                 if (student[i].firstName == selectedPlayer.firstName && student[i].lastName == selectedPlayer.lastName)
                 {
@@ -501,7 +503,7 @@ namespace WheelOfFortune
             }
 
             //write in text file
-            for(int i = 0; i < student.Length; i++)
+            for (int i = 0; i < student.Length; i++)
             {
                 sw.WriteLine(student[i].firstName);
                 sw.WriteLine(student[i].lastName);
@@ -516,9 +518,9 @@ namespace WheelOfFortune
         public static void TopFive(Student[] student)
         {
             //used bubble sort to order players according to their scores
-            for(int i = 0; i < student.Length; i++)
+            for (int i = 0; i < student.Length; i++)
             {
-                for(int j = 0; j < i; j++)
+                for (int j = 0; j < i; j++)
                 {
                     if (student[i].score > student[j].score)
                     {
@@ -587,7 +589,7 @@ namespace WheelOfFortune
             {
                 case 1:
                     //display all students
-                    TaskOne(student, selectedPlayer);
+                    TaskOne(student);
                     Console.WriteLine();
                     break;
                 case 2:
@@ -614,7 +616,7 @@ namespace WheelOfFortune
                 case 5:
                     //play the game
                     //condition if selectedPlayer is null
-                    if(string.IsNullOrWhiteSpace(selectedPlayer.lastName))
+                    if (string.IsNullOrWhiteSpace(selectedPlayer.lastName))
                     {
                         Console.WriteLine("You need to find a player first!");
                         Console.WriteLine("Press enter to go back.");
