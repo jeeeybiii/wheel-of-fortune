@@ -1,8 +1,6 @@
-<<<<<<< HEAD
-=======
 John Vincent L. Macuto
 
->>>>>>> origin/main
+
 Extra Features
 - Animated wheel-spin effect
 - Available letters disappear after being guessed
