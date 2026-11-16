@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Headers;
+using System.Net.Http.Headers;
 using System.IO;
 using System.Runtime.CompilerServices;
 namespace WheelOfFortune
@@ -259,7 +259,7 @@ namespace WheelOfFortune
         {
             Random rand = new Random();
             int wordRandomizer;
-            string[] words = { "computerized", "electricity", "chrysanthemum", "programming", "mathematics", "photography", "dictionary", "restaurant" };
+            string[] words = { "computerized", "electricity", "chrysanthemum", "programming", "mathematics", "photography", "dictionary", "restaurant", "cybersecurity", "evaporation", "astonishing" };
             wordRandomizer = rand.Next(0, words.Length);
             return words[wordRandomizer];
         }
